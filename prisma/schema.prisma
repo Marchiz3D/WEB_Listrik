@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id  Int @id @default(autoincrement())
+  username String @unique
+  password String @db.Text
+  nama String
+  role String?
+  refreshToken String? @db.Text
+
+  @@map("admin")
+}
+
+model Pelanggan {
+  id  Int @id @default(autoincrement())
+  nama  String
+  email String @unique
+  nomor_meteran String @unique
+  telepon Int @unique
+  alamat String @db.Text
+  role String?
+
+  tagihan Tagihan[]
+
+  @@map("pelanggan")
+}
+
+model Tagihan {
+  id Int @id @default(autoincrement())
+  jumlah_tagihan Int
+  bulan String
+  tahun String
+  pembayaran Pembayaran[]
+
+  pelanggan Pelanggan @relation(fields: [id_pelanggan], references: [id])
+  id_pelanggan Int
+  
+  @@map("tagihan")
+}
+
+model Pembayaran {
+  id Int @id @default(autoincrement())
+  tanggal_pembayaran String
+  jumlah_pembayaran Int
+
+  tagihan Tagihan @relation(fields: [id_tagihan], references: [id])
+  id_tagihan Int
+  @@map("pembayaran")
+}
+
+

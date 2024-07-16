@@ -25,6 +25,7 @@ const fetchRefreshToken = async () => {
 
 // Membuat axios instance
 export const axiosInstance = axios.create({
+  baseURL: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   }
@@ -38,10 +39,15 @@ axiosInstance.interceptors.request.use(
       try {
         token = await fetchRefreshToken();
         config.headers.Authorization = `Bearer ${token}`;
-        return config
       } catch (error) {
         return Promise.reject(error);
       }
+    } else {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error);
   }
 )

@@ -18,22 +18,20 @@ const Sidebar = () => {
 
   const fetchLogout = async () => {
     try {
-      const response = await axiosInstance.delete("/api/auth/logout", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-
-      if (response) {
-        // Konfirmasi logout
-        const confirmLogout = confirm("Yakin ingin logout?")
-        if (confirmLogout) {
-          alert("Berhasil Logout")
-          localStorage.removeItem("login")
-        } else {
-          return
-        }
+      // Konfirmasi logout
+      const confirmLogout = confirm("Yakin ingin logout?")
+      if (confirmLogout) {
+        await axiosInstance.delete("/api/auth/logout", {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        alert("Berhasil Logout")
+        localStorage.removeItem("login")
+        router.push("/").then(() => router.reload())
+      } else {
+        return
       }
     } catch (error) {
       console.log(error)

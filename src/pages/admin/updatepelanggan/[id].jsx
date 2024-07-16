@@ -1,35 +1,56 @@
-import { axiosInstance } from "@/libs/axiosInterceptor"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
+import { axiosInstance } from "@/libs/axiosInterceptor"
 
-const FormRegistrasiPelanggan = () => {
+const Page = () => {
   const [pelanggan, setPelanggan] = useState({
-    nama: "",
-    email: "",
-    telepon: "",
+    telepon: 0,
     alamat: "",
   })
 
   const router = useRouter()
+  const { id } = router.query
 
+  useEffect(() => {
+    const fetchPelanggan = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/pelanggan/${id}`, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+
+        console.log(response)
+        setPelanggan(response.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchPelanggan()
+  }, [])
   const handleChange = (e) => {
     setPelanggan({
       ...pelanggan,
       [e.target.name]: e.target.value,
     })
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // Fetching registrasi untuk pelanggan
-      const respone = await axiosInstance.post(
-        "/api/admin/addpelanggan",
-        pelanggan
+      // Konfirmasi update pelanggan
+      const confirm = window.confirm(
+        "Apakah anda yakin ingin mengupdate pelanggan ini?"
       )
-
-      if (respone) {
-        alert(respone.data.message)
-        router.reload()
+      if (confirm) {
+        // Fetch update pelanggan
+        await axiosInstance.put(`/api/admin/updatepelanggan/${id}`, pelanggan)
+        alert("Data pelanggan berhasil diupdate")
+        router.push("/admin/dashboard")
+      } else {
+        return
       }
     } catch (error) {
       console.log(error)
@@ -40,7 +61,7 @@ const FormRegistrasiPelanggan = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">
-          Register Pelanggan
+          Update Pelanggan
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -52,9 +73,8 @@ const FormRegistrasiPelanggan = () => {
               id="nama"
               name="nama"
               value={pelanggan.nama}
-              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-800"
-              required
+              readOnly
             />
           </div>
           <div className="mb-4">
@@ -66,9 +86,8 @@ const FormRegistrasiPelanggan = () => {
               id="email"
               name="email"
               value={pelanggan.email}
-              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-800"
-              required
+              readOnly
             />
           </div>
           <div className="mb-4">
@@ -79,23 +98,23 @@ const FormRegistrasiPelanggan = () => {
               type="number"
               id="telepon"
               name="telepon"
-              value={pelanggan.telepon}
               onChange={handleChange}
+              value={pelanggan.telepon}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-800"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="alamat" className="block text-gray-700">
+            <label htmlFor="telepon" className="block text-gray-700">
               Alamat
             </label>
             <textarea
               name="alamat"
               id="alamat"
               rows="3"
-              value={pelanggan.alamat}
-              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-800"
+              onChange={handleChange}
+              value={pelanggan.alamat}
               required
             ></textarea>
           </div>
@@ -103,7 +122,7 @@ const FormRegistrasiPelanggan = () => {
             type="submit"
             className="w-full bg-gray-800 text-white py-2 rounded-md hover:bg-gray-950 transition duration-300"
           >
-            Register
+            Update
           </button>
         </form>
       </div>
@@ -111,4 +130,4 @@ const FormRegistrasiPelanggan = () => {
   )
 }
 
-export default FormRegistrasiPelanggan
+export default Page

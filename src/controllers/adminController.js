@@ -64,8 +64,6 @@ export const logoutAdmin = async (req, res) => {
       }
     })
 
-    console.log(admin)
-
     if (!admin) return res.status(404).json({ message: "Admin tidak ditemukan" });
 
     // Membuat sistem logout
@@ -73,14 +71,14 @@ export const logoutAdmin = async (req, res) => {
     cookies.set('refreshToken')
 
     // Hapus refreshtoken dari database
-    // await prisma.admin.update({
-    //   where: {
-    //     username: admin.username
-    //   },
-    //   data: {
-    //     refreshToken: null
-    //   }
-    // })
+    await prisma.admin.update({
+      where: {
+        username: admin.username
+      },
+      data: {
+        refreshToken: null
+      }
+    })
 
     res.status(200).json({ message: "Logout success" });
   } catch (error) {

@@ -31,8 +31,7 @@ const FormLoginAdmin = () => {
       response = await response.json()
       localStorage.setItem("login", true)
       alert("Berhasil Login")
-      await router.push("/admin/dashboard")
-      router.reload()
+      router.push("/admin/dashboard").then(() => router.reload())
     } catch (error) {
       console.log(error)
     }

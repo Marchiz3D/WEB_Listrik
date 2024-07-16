@@ -18,7 +18,6 @@ model Admin {
   username String @unique
   password String @db.Text
   nama String
-  role String?
   refreshToken String? @db.Text
 
   @@map("admin")
@@ -29,9 +28,8 @@ model Pelanggan {
   nama  String
   email String @unique
   nomor_meteran String @unique
-  telepon Int @unique
+  telepon String @unique
   alamat String @db.Text
-  role String?
 
   tagihan Tagihan[]
 

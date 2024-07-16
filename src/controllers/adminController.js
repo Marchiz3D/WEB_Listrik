@@ -1,11 +1,10 @@
 import { createRefreshToken, createToken } from "@/libs/jwt.js";
 import { PrismaClient } from "@prisma/client";
-import cookie from 'cookie';
-import { cookies } from "next/headers";
+import Cookies from "cookies";
 
 const prisma = new PrismaClient();
-
-const getAdmin = async (req, res) => {
+export const loginAdmin = async (req, res) => {
+  const cookies = new Cookies(req, res);
   try {
     const { username, password } = req.body;
 
@@ -33,16 +32,60 @@ const getAdmin = async (req, res) => {
       }
     })
 
-    // Menyimpan token ke cookie
-    res.setHeader("Set-Cookie", cookie.serialize("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 15 * 60 * 1000
-    }))
+    // Menyimpan refrshtoken ke cookie
+    // res.setHeader("Set-Cookie", [
+    //   cookie.serialize("refreshToken", refreshToken, {
+    //     httpOnly: true,
+    //     maxAge: 15 * 60 * 1000,
+    //     sameSite: "strict",
+    //     path: "/",
+    //   })
+    // ])
+    cookies.set("refreshToken", refreshToken, { httpOnly: true, maxAge: 15 * 60 * 1000, sameSite: "strict", path: "/" });
 
-    res.status(200).json({ admin: { nama: admin.nama, username: admin.username }, token, refreshToken });
+    res.status(200).json({ admin: { nama: admin.nama, username: admin.username }, token });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: error.message });
   }
 }
 
-export { getAdmin }
+
+
+export const logoutAdmin = async (req, res) => {
+  const cookies = new Cookies(req, res);
+  try {
+    const refreshToken = cookies.get('refreshToken')
+
+    // Cek apakah admin ada atau tidak
+    const admin = await prisma.admin.findFirst({
+      where: {
+        refreshToken: refreshToken
+      }
+    })
+
+    console.log(admin)
+
+    if (!admin) return res.status(404).json({ message: "Admin tidak ditemukan" });
+
+    // Membuat sistem logout
+    // Hapus cookie
+    cookies.set('refreshToken')
+
+    // Hapus refreshtoken dari database
+    // await prisma.admin.update({
+    //   where: {
+    //     username: admin.username
+    //   },
+    //   data: {
+    //     refreshToken: null
+    //   }
+    // })
+
+    res.status(200).json({ message: "Logout success" });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: error.message });
+  }
+}
+

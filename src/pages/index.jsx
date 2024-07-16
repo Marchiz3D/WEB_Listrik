@@ -1,6 +1,12 @@
+import Cookies from "js-cookie"
 import Link from "next/link"
+import { useState } from "react"
 
 const Page = () => {
+  const handleClick = () => {
+    console.log(Cookies.get("token"))
+  }
+
   return (
     <div>
       <div className="bg-white rounded-lg overflow-hidden shadow-md">
@@ -15,7 +21,9 @@ const Page = () => {
               Read more
             </a>
           </Link>
-          <button className="bg-blue-500">CLICK ME</button>
+          <button className="bg-blue-500" onClick={handleClick}>
+            CLICK ME
+          </button>
         </div>
       </div>
     </div>

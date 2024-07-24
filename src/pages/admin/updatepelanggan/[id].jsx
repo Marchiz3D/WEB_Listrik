@@ -21,7 +21,6 @@ const Page = () => {
           },
         })
 
-        console.log(response)
         setPelanggan(response.data)
       } catch (error) {
         console.log(error)

@@ -1,4 +1,4 @@
-import { updatePelanggan } from "@/controllers/pelangganController";
+import { updatePelanggan } from "@/controllers/adminController";
 import { runMiddleware } from "@/libs/middleware"
 import { verifyAuth } from "@/middleware/verifyAuth"
 

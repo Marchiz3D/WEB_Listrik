@@ -74,7 +74,7 @@ const FormLoginAdmin = () => {
             type="submit"
             className="w-full bg-gray-800 text-white py-2 rounded-md hover:bg-gray-950 transition duration-300"
           >
-            Register
+            Login
           </button>
         </form>
       </div>

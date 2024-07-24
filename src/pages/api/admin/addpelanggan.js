@@ -1,4 +1,4 @@
-import { createPelanggan } from "@/controllers/pelangganController.js"
+import { createPelanggan } from "@/controllers/adminController.js"
 import { runMiddleware } from "@/libs/middleware.js";
 import { verifyAuth } from "@/middleware/verifyAuth.js";
 

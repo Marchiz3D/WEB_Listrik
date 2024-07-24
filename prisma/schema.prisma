@@ -39,24 +39,13 @@ model Pelanggan {
 model Tagihan {
   id Int @id @default(autoincrement())
   jumlah_tagihan Int
-  bulan String
-  tahun String
-  pembayaran Pembayaran[]
+  tanggal_tagihan DateTime
+  meteran Int
 
   pelanggan Pelanggan @relation(fields: [id_pelanggan], references: [id])
   id_pelanggan Int
   
   @@map("tagihan")
-}
-
-model Pembayaran {
-  id Int @id @default(autoincrement())
-  tanggal_pembayaran String
-  jumlah_pembayaran Int
-
-  tagihan Tagihan @relation(fields: [id_tagihan], references: [id])
-  id_tagihan Int
-  @@map("pembayaran")
 }
 
 

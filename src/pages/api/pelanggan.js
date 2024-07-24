@@ -1,6 +1,6 @@
 import { verifyAuth } from '@/middleware/verifyAuth.js';
 import { runMiddleware } from '@/libs/middleware.js';
-import { getAllPelanggan } from '@/controllers/pelangganController';
+import { getAllPelanggan } from '@/controllers/adminController.js';
 
 export default async (req, res) => {
   await runMiddleware(req, res, verifyAuth);

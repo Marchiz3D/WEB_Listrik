@@ -34,14 +34,6 @@ export const loginAdmin = async (req, res) => {
     })
 
     // Menyimpan refrshtoken ke cookie
-    // res.setHeader("Set-Cookie", [
-    //   cookie.serialize("refreshToken", refreshToken, {
-    //     httpOnly: true,
-    //     maxAge: 15 * 60 * 1000,
-    //     sameSite: "strict",
-    //     path: "/",
-    //   })
-    // ])
     cookies.set("refreshToken", refreshToken, { httpOnly: true, maxAge: 15 * 60 * 1000, sameSite: "strict", path: "/" });
 
     res.status(200).json({ admin: { nama: admin.nama, username: admin.username }, token });
@@ -118,7 +110,13 @@ export const createPelanggan = async (req, res) => {
 
 export const getAllPelanggan = async (req, res) => {
   try {
-    const pelanggan = await prisma.pelanggan.findMany();
+    const pelanggan = await prisma.pelanggan.findMany({
+      include: {
+        tagihan: true
+      }
+    });
+
+    if (!pelanggan) return res.status(400).json({ message: "Pelanggan tidak ditemukan" })
 
     res.status(200).json(pelanggan);
   } catch (error) {

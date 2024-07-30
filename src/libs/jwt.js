@@ -5,7 +5,7 @@ const refreshKey = process.env.JWT_REFRESH_KEY;
 
 // membuat token
 export const createToken = (admin) => {
-  return jwt.sign({ name: admin.name, username: admin.username }, secretKey, { expiresIn: '15m' });
+  return jwt.sign({ name: admin.name, username: admin.username }, secretKey, { expiresIn: '1d' });
 }
 
 // membuat refresh token

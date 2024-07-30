@@ -5,6 +5,7 @@ import Link from "next/link"
 
 const Page = () => {
   const [pelanggan, setPelanggan] = useState([])
+  const [tagihanStatus, setTagihanStatus] = useState("")
   const router = useRouter()
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const Page = () => {
         },
       })
       setPelanggan(response.data)
+      // Membuat tagihan status
     } catch (error) {
       console.log(error)
     }
@@ -51,7 +53,7 @@ const Page = () => {
 
   return (
     <div className="h-screen bg-gray-100 p-5">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4">Pelanggan</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 shadow-xl">
           <thead>

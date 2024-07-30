@@ -29,7 +29,7 @@ export const refreshToken = async (req, res) => {
 
       // Membuat token baru
       const token = jwt.sign({ nama: admin.nama, username: admin.username }, process.env.JWT_SECRET_KEY, {
-        expiresIn: '15m'
+        expiresIn: '1d'
       })
 
       res.status(200).json({ token });

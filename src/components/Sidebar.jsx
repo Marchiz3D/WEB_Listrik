@@ -1,5 +1,4 @@
 import { axiosInstance } from "@/libs/axiosInterceptor"
-import Cookies from "js-cookie"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -47,16 +46,13 @@ const Sidebar = () => {
         </Link>
       </div>
       <ul>
+        <li className="mb-4">
+          <Link href="/" className="hover:text-gray-300">
+            <h1>Bayar Listrik</h1>
+          </Link>
+        </li>
         {isLogin ? (
           <>
-            <li className="mb-4">
-              <Link
-                href="/admin/pelangganregister"
-                className="hover:text-gray-300"
-              >
-                Registrasi Pelanggan
-              </Link>
-            </li>
             <li className="mb-4">
               <Link
                 href="#"
@@ -66,6 +62,14 @@ const Sidebar = () => {
                 }
               >
                 Dashboard
+              </Link>
+            </li>
+            <li className="mb-4">
+              <Link
+                href="/admin/pelangganregister"
+                className="hover:text-gray-300"
+              >
+                Registrasi Pelanggan
               </Link>
             </li>
             <li className="mb-4">

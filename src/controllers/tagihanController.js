@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { createTransaction } from "../libs/midtransTranscation.js";
 
 const prisma = new PrismaClient();
 

@@ -58,8 +58,16 @@ const Page = () => {
       })
 
       if (response.status === 200) {
+        const { tanggal_tagihan, ...tagihan } = response.data
+
         setTagihanExist(true)
-        setTagihan(response.data)
+        const date = new Date(response.data.tanggal_tagihan)
+        const options = { day: "2-digit", month: "long", year: "numeric" }
+        const formatDate = date.toLocaleDateString("id-ID", options)
+        setTagihan({
+          ...tagihan,
+          tanggal_tagihan: formatDate,
+        })
       }
     } catch (error) {
       if (error.response.status === 404) {

@@ -155,8 +155,8 @@ const Page = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-3">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
-        {!showPopup && (
+      {!showPopup && (
+        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
           <form onSubmit={handleSubmit}>
             <h1 className="text-2xl font-bold mb-6 text-center">
               Pembayaran Listrik
@@ -300,9 +300,9 @@ const Page = () => {
               Bayar
             </button>
           </form>
-        )}
-        <div id="snap-midtrans"></div>
-      </div>
+        </div>
+      )}
+      <div id="snap-midtrans" className="items-center"></div>
     </div>
   )
 }

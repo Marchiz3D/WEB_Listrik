@@ -57,10 +57,10 @@ export const createTagihan = async (req, res) => {
     }
 
     // Membuat tagihan baru berdasarkan banyaknya meteran
-    const meteran = Math.floor(Math.random() * 199) + 1
+    const meteran = Math.floor(Math.random() * 199) + 1;
 
     // Menghitung total tagihan berdasarkan meteran
-    const totalTagihan = meteran * 20000
+    const totalTagihan = meteran * 10000;
 
     const createTagihan = await prisma.tagihan.create({
       data: {
